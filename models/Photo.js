@@ -5,6 +5,10 @@ const photoSchema = new mongoose.Schema({
     type: String,
     maxlength: 200
   },
+  filepath: {
+    type: String,
+    maxlength: 200
+  },
   uploadDate: {
     type: Date,
     default: Date.now()

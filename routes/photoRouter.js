@@ -32,13 +32,16 @@ const upload = multer({ storage });
 
 
 
-router.post('/upload', upload.array('files'), async(req, res) => {
-    const files = req.files;
+router.post('/upload', async(req, res) => {
   try {
+    
+    const files = req.body;
+    console.log(files)
     for (let i = 0; i < files.length; i++) {
       const newphoto = new Photo({
-        filename: files[i].filename,
-        userID: req.headers.userid // assuming you have authentication middleware that sets req.user
+        filename: files[i][0],
+        filepath: files[i][1],
+        userID: files[i][2] // assuming you have authentication middleware that sets req.user
       });
       await newphoto.save();
     }
@@ -49,13 +52,14 @@ router.post('/upload', upload.array('files'), async(req, res) => {
   }
 });
 
-  
 router.get('/photos', async(req, res) => {
     const photos = await Photo.find();
-    console.log(photos)
     res.send(photos);
   });
 
+router.get('/search', async(req, res)=>{
+  console.log('search');
+})
 
 // Upload a photo
 // router.post('/upload', generateRSS, PhotoController.uploadPhoto);
